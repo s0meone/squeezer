@@ -12,6 +12,11 @@ Usage Examples
 --------------
 	require "squeezer"
 
+	Squeezer.configure do |config|
+	  config.server = "127.0.0.1"
+	  config.port = 9090
+	end
+
 	client = Squeezer::Client.new
 
 	puts client.version

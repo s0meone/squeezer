@@ -28,7 +28,7 @@ describe Squeezer::Player do
     it "should cache the player's name" do
       stub_connection.with("player name player_id ?").returns("player name player_id Squeezebox")
       @player.name.should == "Squeezebox"
-      stub_connection.at_least(0).with("player name player_id ?").returns("player name player_id AnotherSqueezebox")
+      stub_connection.with("player name player_id ?").returns("player name player_id AnotherSqueezebox")
       @player.name.should == "Squeezebox"
     end
   end
@@ -42,7 +42,7 @@ describe Squeezer::Player do
     it "should cache the player's ip" do
       stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%1234")
       @player.ip.should == "127.0.0.1"
-      stub_connection.at_least(0).with("player ip player_id ?").returns("player ip player_id 192.168.1.1%1234")
+      stub_connection.with("player ip player_id ?").returns("player ip player_id 192.168.1.1%1234")
       @player.ip.should == "127.0.0.1"
     end
   end
@@ -83,12 +83,12 @@ describe Squeezer::Player do
   end
   
   describe ".can_power_off?" do
-    it "should return the player's capibility to turn itself off" do
+    it "should return the player's capability to turn itself off" do
       stub_connection.with("player canpoweroff player_id ?").returns("player canpoweroff player_id 1")
       @player.can_power_off.should be true
     end
     
-    it "should cache the player's capibility to turn itself off" do
+    it "should cache the player's capability to turn itself off" do
       stub_connection.with("player canpoweroff player_id ?").returns("player canpoweroff player_id 1")
       @player.can_power_off.should be true
       stub_connection.with("player canpoweroff player_id ?").returns("player canpoweroff player_id 0")
