@@ -1,0 +1,37 @@
+Squeezer: Ruby Squeezebox Gem
+====================
+A Ruby wrapper for the Squeezebox Server CLI API.
+
+WORK IN PROGRESS
+----------------
+This is the first initial commit of a new project. It is not finished by any means.
+
+Feel free to comment with help or criticism!
+
+Usage Examples
+--------------
+	require "squeezer"
+
+	client = Squeezer::Client.new
+
+	puts client.version
+
+	client.players.each do |id, player|
+	  puts "Name: #{player.name}"
+	  puts "Model: #{player.model}"
+	  puts "Signal: #{player.signal_strength}" if player.wireless?
+	  puts "Volume: #{player.volume}"
+  
+	  player.on! if player.off?
+	end
+
+	client.find_player_by_name("living room").volume = "+20"
+	client.find_player_by_name("living room").volume = "100"
+	client.find_player_by_name("living room").volume = "-50"
+
+	client.exit
+	
+Copyright
+---------
+Copyright (c) 2011 Daniël van Hoesel.
+More information coming soon.
