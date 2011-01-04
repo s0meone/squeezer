@@ -15,9 +15,13 @@ module Squeezer
   end
 
   # Delegate to Squeezer::Client
+  # Beware that every instance of Squeezer::Client will have an open connection to the server
   def self.method_missing(method, *args, &block)
-    return super unless client.respond_to?(method)
-    client.send(method, *args, &block)
+    squeezer = client
+    return super unless squeezer.respond_to?(method)
+    result = squeezer.send(method, *args, &block)
+    squeezer.exit
+    result
   end
   
 end

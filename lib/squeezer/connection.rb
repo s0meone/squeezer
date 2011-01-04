@@ -22,7 +22,9 @@ module Squeezer
       puts response if options == :debug
       return false if response.nil?
       return true if response.strip.eql?(command)
-      return response.gsub(command.gsub('?', '').strip, '').strip
+      result = response.gsub(command.gsub('?', '').strip, '').strip
+      result.force_encoding("UTF-8")
+      result
     end
         
     def connection

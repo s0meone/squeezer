@@ -5,7 +5,7 @@ describe Squeezer::Client do
     stub_connection.with("player count ?").returns("1\n")
     stub_connection.with("player id 0 ?").returns("player id 0 player_id\n")
     stub_connection.with("player name player_id ?").returns("player name player_id Squeezebox\n")
-    stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%1234\n")
+    stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%3A12345\n")
     @client = Squeezer::Client.new
   end
   

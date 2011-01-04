@@ -2,15 +2,15 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe Squeezer::Player do
   before do
-    @player = Squeezer::Player.new("player_id")
+    @player = Squeezer::Player.new("player_id", @connection)
   end
   
   describe "sorting" do
     it "should sort by name" do
       stub_connection.with("player name player_id1 ?").returns("player name player_id1 SqueezeboxA")
       stub_connection.with("player name player_id2 ?").returns("player name player_id2 SqueezeboxB")
-      player1 = Squeezer::Player.new("player_id1")
-      player2 = Squeezer::Player.new("player_id2")
+      player1 = Squeezer::Player.new("player_id1", @connection)
+      player2 = Squeezer::Player.new("player_id2", @connection)
   
       (player1 <=> player2).should == -1
       (player2 <=> player1).should == 1
@@ -35,14 +35,14 @@ describe Squeezer::Player do
   
   describe ".ip" do
     it "should return the player's ip" do
-      stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%1234")
+      stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%3A12345")
       @player.ip.should == "127.0.0.1"
     end
     
     it "should cache the player's ip" do
-      stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%1234")
+      stub_connection.with("player ip player_id ?").returns("player ip player_id 127.0.0.1%3A12345")
       @player.ip.should == "127.0.0.1"
-      stub_connection.with("player ip player_id ?").returns("player ip player_id 192.168.1.1%1234")
+      stub_connection.with("player ip player_id ?").returns("player ip player_id 192.168.1.1%3A12345")
       @player.ip.should == "127.0.0.1"
     end
   end

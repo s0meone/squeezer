@@ -5,7 +5,8 @@ module Squeezer
     
     attr_reader :id
     
-    def initialize(id, options={})
+    def initialize(id, connection, options={})
+      options[:connection] = connection
       super options
       @id = id
     end
@@ -15,11 +16,7 @@ module Squeezer
     end
     
     def ip
-      if @ip.nil?
-        ip = cmd "player ip #{id} ?"
-        @ip = ip.gsub(/(^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*/, '\1')
-      end
-      @ip
+      @ip ||= URI.unescape(cmd("player ip #{id} ?")).split(":").first
     end
     
     def model

@@ -2,6 +2,7 @@ require File.expand_path('../connection', __FILE__)
 
 module Squeezer
   class API
+    
     # @private
     attr_accessor *Configuration::VALID_OPTIONS_KEYS
 
@@ -11,6 +12,7 @@ module Squeezer
       Configuration::VALID_OPTIONS_KEYS.each do |key|
         send("#{key}=", options[key])
       end
+      @connection = options[:connection]
     end
 
     include Connection
