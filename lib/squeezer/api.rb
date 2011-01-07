@@ -12,9 +12,8 @@ module Squeezer
       Configuration::VALID_OPTIONS_KEYS.each do |key|
         send("#{key}=", options[key])
       end
-      @connection = options[:connection]
     end
-
+        
     include Connection
   end
 end

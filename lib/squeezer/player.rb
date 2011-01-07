@@ -2,11 +2,10 @@ module Squeezer
   class Player < API
     
     # most of these attributes are cached for the lifetime of the object, since they never change anyway
-    
+
     attr_reader :id
     
-    def initialize(id, connection, options={})
-      options[:connection] = connection
+    def initialize(id, options={})
       super options
       @id = id
     end

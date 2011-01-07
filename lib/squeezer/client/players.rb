@@ -1,47 +1,17 @@
 module Squeezer
   class Client
     module Players
-      
-      # TODO fix this mess, this class has the same name as the module
-      # and it looks like this class does nothing more than wrapping a Hash
-      
-      class Players < API
-
-        # beware of offline players, they still show up on the list
-        # test if those players are connected with Player#connected?
-        
-        include Enumerable
-        include Comparable
-        
-        def initialize(connection, options={})
-          options[:connection] = connection
-          super options
-
-          @players = Hash.new
-          count = cmd("player count ?").to_i
-          count.to_i.times do |index|
-            id = cmd("player id #{index} ?")
-            @players[id] = Player.new(id, connection)
-          end
-        end
-                
-        def size
-          @players.size
-        end
-        
-        def [](value)
-          @players[value]
-        end
-              
-        def each
-          @players.each do |id,player|
-            yield id, player
-          end
-        end
-      end
-      
+            
+      # beware of offline players, they still show up on the list
+      # test if those players are connected with Player#connected?
       def players
-        Players.new(connection)
+        player_map = Hash.new
+        count = cmd("player count ?").to_i
+        count.to_i.times do |index|
+          id = cmd("player id #{index} ?")
+          player_map[id] = Player.new(id)
+        end
+        player_map
       end
       
       def find_player_by_name(name)

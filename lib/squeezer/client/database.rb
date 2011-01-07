@@ -26,7 +26,7 @@ module Squeezer
       end
           
       def artists
-        Model.entities(connection, Models::Artist, extract_data([:id, :artist, :textkey], cmd("artists 0 #{total_artists + 1} charset:utf8 tags:s")))
+        Model.entities(Models::Artist, extract_data([:id, :artist, :textkey], cmd("artists 0 #{total_artists + 1} charset:utf8 tags:s")))
       end
 
       private

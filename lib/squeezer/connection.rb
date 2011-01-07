@@ -3,7 +3,9 @@ require 'net/telnet'
 module Squeezer
   # @private
   module Connection
-    
+  
+    # don't forget to close the connection! Or else the connection stay's
+    # in memory of the eigenclass!
     def exit
       cmd("exit")
       close_connection
@@ -26,10 +28,21 @@ module Squeezer
       result.force_encoding("UTF-8")
       result
     end
-        
+    
     def connection
-      # TODO add authentication and stuff
-      @connection ||= Net::Telnet::new("Host" => server, "Port" => port, "Telnetmode" => false, "Prompt" => /\n/)
+      Connection.retrieve_connection
     end
+    
+    class << self
+      def retrieve_connection
+        @connection ||= open_connection
+      end
+      
+      def open_connection
+        # do authentication and stuff
+        Net::Telnet.new("Host" => Squeezer.server, "Port" => Squeezer.port, "Telnetmode" => false, "Prompt" => /\n/)
+      end
+    end
+    
   end
 end
