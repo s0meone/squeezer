@@ -6,12 +6,20 @@ describe Squeezer do
   end
   
   context "when delegating to a client" do
-      
     it "should return the same results as a client" do
       stub_connection.with("version ?").returns("version x.x.x\n")
       Squeezer.version.should == Squeezer::Client.new.version
     end
-    
+  end
+  
+  describe ".open" do
+    it "should run commands in a block" do
+      stub_connection.with("version ?").at_least_once.returns("version x.x.x\n")
+      stub_connection.with("exit").at_least_once
+      Squeezer.open do |client|
+        version.should == "x.x.x"
+      end
+    end
   end
   
   describe ".client" do

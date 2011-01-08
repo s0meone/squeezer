@@ -23,16 +23,22 @@ RSpec.configure do |config|
     # connection directly. So we mock the connection getter instead.
     # But since we didn't find a way to mock a module method, we mock the
     # getter per class.
-    Squeezer::Models::Player.any_instance.stubs(:connection).returns(@connection)
-    Squeezer::Models::Artist.any_instance.stubs(:connection).returns(@connection)
-    Squeezer::Models::Album.any_instance.stubs(:connection).returns(@connection)
-    Squeezer::Models::Track.any_instance.stubs(:connection).returns(@connection)
-    Squeezer::Models::Genre.any_instance.stubs(:connection).returns(@connection)
-    Squeezer::Client.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Models::Player.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Models::Artist.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Models::Album.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Models::Track.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Models::Genre.any_instance.stubs(:connection).returns(@connection)
+    # Squeezer::Client.any_instance.stubs(:connection).returns(@connection)
+    
+    # Squeezer::Connection.stubs(:retrieve_connection).returns(@connection)
+    # Squeezer::Connection.stubs(:close_connection)
+    
+    # Hmm, for some reason the original approach works again..
+    Net::Telnet.stubs(:new).returns(@connection)
   end
   
   config.after(:each) do
-    # Squeezer.exit
+    Squeezer.exit
   end
 end
 

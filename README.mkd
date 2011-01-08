@@ -30,10 +30,14 @@ General:
 	  config.port = 9090
 	end
 
+	# execute block and close the connection when done
+	Squeezer.open do |client|
+	  puts client.version
+	  puts Tracks.total
+	end
+
+	# or start a client and call exit manually
 	client = Squeezer::Client.new
-
-	puts client.version
-
 	client.players.each do |id, player|
 	  puts "Name: #{player.name}"
 	  puts "Model: #{player.model}"
@@ -41,10 +45,9 @@ General:
 	  puts "Volume: #{player.volume}"
   
 	  player.on! if player.off?
+	
 	  player.volume = "+40"
 	end
-
-	puts client.total_artists
 	
 	client.artists.each do |artist|
 	  puts artist.name
