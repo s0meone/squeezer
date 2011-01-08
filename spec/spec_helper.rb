@@ -23,7 +23,7 @@ RSpec.configure do |config|
     # connection directly. So we mock the connection getter instead.
     # But since we didn't find a way to mock a module method, we mock the
     # getter per class.
-    Squeezer::Player.any_instance.stubs(:connection).returns(@connection)
+    Squeezer::Models::Player.any_instance.stubs(:connection).returns(@connection)
     Squeezer::Client.any_instance.stubs(:connection).returns(@connection)
   end
   

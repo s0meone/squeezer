@@ -9,7 +9,7 @@ module Squeezer
         count = cmd("player count ?").to_i
         count.to_i.times do |index|
           id = cmd("player id #{index} ?")
-          player_map[id] = Player.new(id)
+          player_map[id] = Models::Player.new(id)
         end
         player_map
       end

@@ -1,12 +1,14 @@
+require 'uri'
+
 require File.expand_path('../squeezer/core_extentions', __FILE__)
 require File.expand_path('../squeezer/configuration', __FILE__)
 require File.expand_path('../squeezer/api', __FILE__)
-require File.expand_path('../squeezer/player', __FILE__)
+require File.expand_path('../squeezer/models', __FILE__)
 require File.expand_path('../squeezer/client', __FILE__)
 
 module Squeezer
   extend Configuration
-  
+    
   # Alias for Squeezer::Client.new
   #
   # @return [Squeezer::Client]

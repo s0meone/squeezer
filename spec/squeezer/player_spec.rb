@@ -1,16 +1,16 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Squeezer::Player do
+describe Squeezer::Models::Player do
   before do
-    @player = Squeezer::Player.new("player_id")
+    @player = Squeezer::Models::Player.new("player_id")
   end
   
   describe "sorting" do
     it "should sort by name" do
       stub_connection.with("player name player_id1 ?").returns("player name player_id1 SqueezeboxA")
       stub_connection.with("player name player_id2 ?").returns("player name player_id2 SqueezeboxB")
-      player1 = Squeezer::Player.new("player_id1")
-      player2 = Squeezer::Player.new("player_id2")
+      player1 = Squeezer::Models::Player.new("player_id1")
+      player2 = Squeezer::Models::Player.new("player_id2")
   
       (player1 <=> player2).should == -1
       (player2 <=> player1).should == 1

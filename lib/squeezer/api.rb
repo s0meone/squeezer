@@ -13,7 +13,7 @@ module Squeezer
         send("#{key}=", options[key])
       end
     end
-        
+     
     include Connection
   end
 end

@@ -35,7 +35,7 @@ describe Squeezer::Client do
     
     it "should return a list with Artist models" do
       artists = @client.artists
-      artists.first.should be_a Squeezer::Client::Database::Models::Artist
+      artists.first.should be_a Squeezer::Models::Artist
     end
     
     it "should return a list with all the artists" do
