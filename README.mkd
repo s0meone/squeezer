@@ -1,6 +1,6 @@
 Squeezer: Ruby Squeezebox Gem
 ====================
-A Ruby wrapper for the Squeezebox Server CLI API.
+A Ruby wrapper for the [Squeezebox](http://www.logitech.com/en-us/speakers-audio/wireless-music-systems) [Server](http://www.squeezenetwork.com/download) CLI API.
 
 WORK IN PROGRESS
 ----------------
@@ -53,11 +53,11 @@ Models:
 	begin
 	  include Squeezer::Models
   
-	  puts Player.find_by_name("someone-music").ip
-	  puts Player.find_by_ip("192.168.1.102").name
+	  puts Player.find_by_name("living room").ip
+	  puts Player.find_by_ip("192.168.1.1").name
 	end
 
 Copyright
 ---------
 Copyright (c) 2011 Daniël van Hoesel.
-More information coming soon.
+See [LICENSE](https://github.com/s0meone/squeezer/blob/master/LICENSE.mkd) for details.
