@@ -1,7 +1,6 @@
 module Squeezer
   class Client
     module Database
-      include Models
       
       # doesn't include 'Various Artists'
       def total_artists
@@ -24,9 +23,10 @@ module Squeezer
         raise "unknown entity" unless %w{artists albums songs genres}.include?(entity.to_s)
         cmd("info total #{entity.to_s} ?").to_i
       end
-          
+      
+      # TODO this is ugly, refactor!
       def artists
-        Model.entities(Models::Artist, extract_data([:id, :artist, :textkey], cmd("artists 0 #{total_artists + 1} charset:utf8 tags:s")))
+        Models::Model.entities(Models::Artist, extract_data([:id, :artist, :textkey], cmd("artists 0 #{total_artists + 1} charset:utf8 tags:s")))
       end
 
       private

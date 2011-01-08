@@ -8,15 +8,10 @@ module Squeezer
     # in memory of the eigenclass!
     def exit
       cmd("exit")
-      close_connection
+      Connection.close_connection
     end
     
     private
-    
-    def close_connection
-      connection.sock.close
-      @connection = nil
-    end
     
     def cmd(command, options={})
       # TODO raise exceptions instead of returning false
@@ -34,6 +29,11 @@ module Squeezer
     end
     
     class << self
+      def close_connection
+        @connection.sock.close
+        @connection = nil
+      end
+      
       def retrieve_connection
         @connection ||= open_connection
       end

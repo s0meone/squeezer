@@ -14,7 +14,6 @@ module Squeezer
       def shutdown_server(sure=:no)
         return false unless sure == :yes
         cmd("shutdown")
-        close_connection
         true
       end
       

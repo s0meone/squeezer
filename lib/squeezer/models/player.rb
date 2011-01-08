@@ -97,6 +97,66 @@ module Squeezer
         self.name <=> target.name
       end
       
+      # TODO method_missing anyone? Those find methods could be nice with a ghost method.
+      
+      # beware of offline players, they still show up on the list
+      # test if those players are connected with Player#connected?
+      def players
+        player_map = Hash.new
+        count = cmd("player count ?").to_i
+        count.to_i.times do |index|
+          id = cmd("player id #{index} ?")
+          player_map[id] = Models::Player.new(id)
+        end
+        player_map
+      end
+      
+      def self.all
+        self.new(nil).players
+      end
+      
+      def find_by_name(name)
+        find(:name => name)
+      end
+      
+      def self.find_by_name(name)
+        self.new(nil).find_by_name(name)
+      end
+      
+      def find_by_ip(ip)
+        find(:ip => ip)
+      end
+      
+      def self.find_by_ip(ip)
+        p = self.new(nil)
+        result = p.find_by_ip(ip)
+        p = nil
+        result
+      end
+      
+      def find_by_id(id)
+        find(:id => id)
+      end
+      
+      def self.find_by_id(id)
+        self.new(nil).find_by_id(id)
+      end
+      
+      def find(values)
+        players.each do |id,player|
+          match = true
+          values.each do |property,value|
+            match = false unless player.send(property.to_sym) == value
+          end
+          return player if match == true
+        end
+        return nil
+      end
+      
+      def self.find(values)
+        self.new(nil).find(values)
+      end
+      
     end
   end
 end

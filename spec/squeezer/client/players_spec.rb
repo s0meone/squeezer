@@ -39,9 +39,9 @@ describe Squeezer::Client do
       @client.find_player_by_ip("127.0.0.1").name.should == "Squeezebox"
     end
     
-    it "should find a player by a combination of search arguments" do
-      @client.find(:id => "player_id", :ip => "127.0.0.1", :name => "Squeezebox").nil?.should be false
-    end
+    # it "should find a player by a combination of search arguments" do
+    #   @client.find(:id => "player_id", :ip => "127.0.0.1", :name => "Squeezebox").nil?.should be false
+    # end
     
   end
   
