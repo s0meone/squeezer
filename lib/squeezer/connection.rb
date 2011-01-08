@@ -20,7 +20,7 @@ module Squeezer
       return false if response.nil?
       return true if response.strip.eql?(command)
       result = response.gsub(command.gsub('?', '').strip, '').strip
-      result.force_encoding("UTF-8")
+      result.force_encoding("UTF-8") unless /^1\.8/ === RUBY_VERSION
       result
     end
     
