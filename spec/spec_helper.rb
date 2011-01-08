@@ -24,6 +24,10 @@ RSpec.configure do |config|
     # But since we didn't find a way to mock a module method, we mock the
     # getter per class.
     Squeezer::Models::Player.any_instance.stubs(:connection).returns(@connection)
+    Squeezer::Models::Artist.any_instance.stubs(:connection).returns(@connection)
+    Squeezer::Models::Album.any_instance.stubs(:connection).returns(@connection)
+    Squeezer::Models::Track.any_instance.stubs(:connection).returns(@connection)
+    Squeezer::Models::Genre.any_instance.stubs(:connection).returns(@connection)
     Squeezer::Client.any_instance.stubs(:connection).returns(@connection)
   end
   

@@ -1,18 +1,18 @@
 module Squeezer
   module Models
     
-    class Artist < Model
+    class Track < Model
       attr_accessor :id, :name
       
       def initialize(record=nil)
         unless record.nil?
           @id = record[:id] if record.key?(:id)
-          @name = record[:artist] if record.key?(:artist)
+          @name = record[:title] if record.key?(:title)
         end
       end
       
       def total
-        count(:artists)
+        count(:songs)
       end
       
       def self.total
@@ -21,7 +21,7 @@ module Squeezer
       
       def all
         results = Array.new
-        extract_records(cmd("artists 0 #{total + 1} charset:utf8 tags:s")).each do |record|
+        extract_records(cmd("tracks 0 #{total} charset:utf8 tags:s")).each do |record|
           results << self.class.new(record)
         end
         results

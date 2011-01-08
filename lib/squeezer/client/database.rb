@@ -2,46 +2,40 @@ module Squeezer
   class Client
     module Database
       
+      # TODO do we really need this methods?
+      # can't we just use the model's class methods?
+      
       # doesn't include 'Various Artists'
       def total_artists
-        count(:artists)
+        Models::Artist.total
       end
       
       def total_albums
-        count(:albums)
+        Models::Album.total
       end
       
-      def total_songs
-        count(:songs)
+      def total_tracks
+        Models::Track.total
       end
       
       def total_genres
-        count(:genres)
+        Models::Genre.total
       end
       
-      def count(entity)
-        raise "unknown entity" unless %w{artists albums songs genres}.include?(entity.to_s)
-        cmd("info total #{entity.to_s} ?").to_i
-      end
-      
-      # TODO this is ugly, refactor!
       def artists
-        Models::Model.entities(Models::Artist, extract_data([:id, :artist, :textkey], cmd("artists 0 #{total_artists + 1} charset:utf8 tags:s")))
+        Models::Artist.all
       end
-
-      private
-
-      # TODO optimize this, attributes have to be in the correct order for the regex to match, which is stupid
-      def extract_data(attributes, data)  
-        result = Array.new
-        data.scan Regexp.new(attributes.map{|a| "#{a.to_s}%3A([^\s]+)" }.join(" ")) do |match|
-          record = Hash.new
-          match.each_with_index do |field, index|
-            record[attributes[index]] = URI.unescape(field)
-          end
-          result << record
-        end
-        result.size == 1 ? result.first : result
+      
+      def albums
+        Models::Album.all
+      end
+      
+      def tracks
+        Models::Track.all
+      end
+      
+      def genres
+        Models::Genre.all
       end
 
     end

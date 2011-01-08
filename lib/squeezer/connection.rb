@@ -39,7 +39,9 @@ module Squeezer
       end
       
       def open_connection
-        # do authentication and stuff
+        # TODO do authentication and stuff
+        # TODO fix the timeout if we receive a large ammount of data 
+        # TODO add error handling when the host is unavailable
         Net::Telnet.new("Host" => Squeezer.server, "Port" => Squeezer.port, "Telnetmode" => false, "Prompt" => /\n/)
       end
     end
