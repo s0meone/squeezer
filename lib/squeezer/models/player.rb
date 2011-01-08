@@ -23,6 +23,7 @@ module Squeezer
         @model ||= cmd "player model #{id} ?"
       end
     
+      # "transporter", "squeezebox2", "squeezebox", "slimp3", "softsqueeze", or "http"
       def is_a?(value)
         value = value.to_s if value.is_a?(Symbol)
         model == value
@@ -49,19 +50,45 @@ module Squeezer
       end
     
       def volume=(value)
-        if value.is_a?(String)
-          modifier = "+" if value.include?("+")
-          value = value.to_i
-        end
-        if -100 <= value and value <= 100
-          cmd("#{id} mixer volume #{modifier}#{value}")
-        else
-          raise "volume out of range"
-        end
+        mixer(:volume, value)
       end
     
       def volume
-        cmd("#{id} mixer volume ?").to_i
+        mixer(:volume)
+      end
+      
+      def bass=(value)
+        raise "command is not supported on this player's model: #{model}" unless %w{slimp3 squeezebox}.include?(model)
+        mixer(:bass, value)
+      end
+    
+      def bass
+        mixer(:bass)
+      end
+      
+      def treble=(value)
+        raise "command is not supported on this player's model: #{model}" unless %w{slimp3 squeezebox}.include?(model)
+        mixer(:treble, value)
+      end
+    
+      def treble
+        mixer(:treble)
+      end
+      
+      def pitch=(value)
+        raise "command is not supported on this player's model: #{model}" unless is_a?("squeezebox")
+        mixer(:pitch, value)
+      end
+    
+      def pitch
+        mixer(:pitch)
+      end
+      
+      def mixer(attribute, value="?")
+        raise "unknown attribute" unless %w{volume bass treble pitch}.include?(attribute.to_s)
+        modifier = "+" if value.is_a?(String) and value.include?("+")
+        result = cmd("#{id} mixer #{attribute.to_s} #{modifier}#{value == "?" ? "?" : value.to_i}")
+        result.respond_to?(:to_i) ? result.to_i : result
       end
     
       def power(state)
@@ -115,6 +142,7 @@ module Squeezer
         self.new(nil).players
       end
       
+      # handle duplicates in these find methods, specs expect only one result
       def find_by_name(name)
         find(:name => name)
       end

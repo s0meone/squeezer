@@ -10,7 +10,7 @@ This project is in it's early stages, it is not finished by any means.
 It also lacks proper error handling and documentation.
 Most of the critical refactor points have been marked with a 'todo' comment.
 
-- active record like search methods and model relations
+- active record like search methods and model relations (database chained search engine?)
 - playlist handling
 - add convenience methods
 - add some more sugar
