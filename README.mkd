@@ -33,7 +33,7 @@ General:
 	# execute block and close the connection when done
 	Squeezer.open do |client|
 	  puts client.version
-	  puts Tracks.total
+	  puts Track.total
 	end
 
 	# or start a client and call exit manually
