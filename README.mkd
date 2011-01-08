@@ -7,18 +7,18 @@ WORK IN PROGRESS
 This project is in it's early stages, it is not finished by any means.
 **Feel free to comment with help or criticism!**
 
-Since I re-used the same project structure as the Twitter gem, a lot of code needs refactoring and optimizing. It also lacks proper error handling and documentation.
+It also lacks proper error handling and documentation.
 Most of the critical refactor points have been marked with a 'todo' comment.
 
 - active record like search methods and model relations
 - playlist handling
 - add convenience methods
 - add some more sugar
-- ?????
-- PROFIT
 
 Usage Examples
 --------------
+General:
+
 	require "squeezer"
 
 	Squeezer.configure do |config|
@@ -47,7 +47,16 @@ Usage Examples
 	end
 
 	client.exit
-	
+
+Models:
+
+	begin
+	  include Squeezer::Models
+  
+	  puts Player.find_by_name("someone-music").ip
+	  puts Player.find_by_ip("192.168.1.102").name
+	end
+
 Copyright
 ---------
 Copyright (c) 2011 Daniël van Hoesel.
