@@ -120,6 +120,35 @@ module Squeezer
         power(:off)
       end
     
+      # fade in seconds
+      def play(fade=0)
+        cmd("#{id} play #{fade}")
+      end
+    
+      def stop
+        cmd("#{id} stop")
+      end
+      
+      def pause
+        cmd("#{id} pause")
+      end
+      
+      def playing?
+        mode == :play
+      end
+      
+      def stopped?
+        mode == :stop
+      end
+      
+      def paused?
+        mode == :pause
+      end
+      
+      def mode
+        cmd("#{id} mode ?").to_sym
+      end
+    
       def <=>(target)
         self.name <=> target.name
       end

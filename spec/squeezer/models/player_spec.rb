@@ -183,6 +183,65 @@ describe Squeezer::Models::Player do
       Squeezer::Models::Player.find(:id => "player_id", :ip => "127.0.0.1", :name => "Squeezebox").nil?.should be false
     end
   end
-    
   
+  context "player modes" do
+    describe ".play" do
+      it "should set a player to playing mode" do
+        stub_connection.with("player_id play 0").returns("player_id play 0")
+        @player.play.should be true
+      end
+      
+      it "should set a player to playing mode with a fadeIn" do
+        stub_connection.with("player_id play 10").returns("player_id play 10")
+        @player.play(10).should be true
+      end
+    end
+    
+    describe ".pause" do
+      it "should pause player" do
+        stub_connection.with("player_id pause").returns("player_id pause")
+        @player.pause.should be true
+      end
+    end
+    
+    describe ".stop" do
+      it "should stop player" do
+        stub_connection.with("player_id stop").returns("player_id stop")
+        @player.stop.should be true
+      end
+    end
+    
+    describe ".mode" do
+      it "should return the player's state if playing" do
+        stub_connection.with("player_id mode ?").returns("player_id mode play")
+        @player.mode.should == :play
+      end
+      
+      it "should return the player's state if playing" do
+        stub_connection.with("player_id mode ?").returns("player_id mode play")
+        @player.playing?.should be true
+      end
+      
+      it "should return the player's state if paused" do
+        stub_connection.with("player_id mode ?").returns("player_id mode pause")
+        @player.mode.should == :pause
+      end
+      
+      it "should return the player's state if paused" do
+        stub_connection.with("player_id mode ?").returns("player_id mode pause")
+        @player.paused?.should be true
+      end
+      
+      it "should return the player's state if stopped" do
+        stub_connection.with("player_id mode ?").returns("player_id mode stop")
+        @player.mode.should == :stop
+      end
+      
+      it "should return the player's state if stopped" do
+        stub_connection.with("player_id mode ?").returns("player_id mode stop")
+        @player.stopped?.should be true
+      end
+    end
+  end
+    
 end
