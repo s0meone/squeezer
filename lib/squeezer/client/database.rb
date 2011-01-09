@@ -37,7 +37,34 @@ module Squeezer
       def genres
         Models::Genre.all
       end
+      
+      def rescan!
+        cmd("rescan")
+      end
+      
+      def scanning?
+        cmd("rescan ?").to_boolean
+      end
 
+      # "The "abortscan" command causes Squeezebox Server to cancel a running scan. 
+      # Please note that after stopping a scan this way you'll have to fully rescan 
+      # your music collection to get consistent data."
+      def abortscan!
+        cmd("abortscan")
+      end
+
+      # The "wipecache" command allows the caller to have the Squeezebox Server rescan 
+      # its music library, reloading the music file information. This differs from the 
+      # "rescan!" command in that it first clears the tag database. During a rescan 
+      # triggered by "wipecache!", "rescan?" returns true.
+      def wipecache!
+        cmd("wipecache")
+      end
+
+      # TODO format the return data better and make it useful
+      def rescan_progress
+        extract_hash_from_data(cmd("rescanprogress"))
+      end
     end
   end
 end

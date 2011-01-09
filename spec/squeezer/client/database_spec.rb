@@ -6,22 +6,22 @@ describe Squeezer::Client do
   end
   
   describe ".total_*" do
-    it "should return the entity's total artists" do
+    it "should return the total artists" do
       stub_connection.with("info total artists ?").returns("info total artists 2\n")
       @client.total_artists.should == 2
     end
     
-    it "should return the entity's total albums" do
+    it "should return the total albums" do
       stub_connection.with("info total albums ?").returns("info total albums 4\n")
       @client.total_albums.should == 4
     end
     
-    it "should return the entity's total genres" do
+    it "should return the total genres" do
       stub_connection.with("info total genres ?").returns("info total genres 6\n")
       @client.total_genres.should == 6
     end
     
-    it "should return the entity's total songs" do
+    it "should return the total songs" do
       stub_connection.with("info total songs ?").returns("info total songs 8\n")
       @client.total_tracks.should == 8
     end
@@ -99,5 +99,41 @@ describe Squeezer::Client do
       genres.first.name.should == "Awesome Genre"
     end
   end
+  
+  context "database scanning" do
+    describe ".rescan!" do  
+      it "should initiate a rescan of the music database" do
+        stub_connection.with("rescan").returns("rescan")
+        @client.rescan!.should be true
+      end
+    end
     
+    describe ".scanning?" do  
+      it "should indicate whether or not the database is scanning" do
+        stub_connection.with("rescan ?").returns("rescan 1")
+        @client.scanning?.should be true
+      end
+    end
+    
+    describe ".abortscan!" do  
+      it "should abort a scan" do
+        stub_connection.with("abortscan").returns("abortscan")
+        @client.abortscan!.should be true
+      end
+    end
+    
+    describe ".wipecache!" do  
+      it "should wipe the database" do
+        stub_connection.with("wipecache").returns("wipecache")
+        @client.wipecache!.should be true
+      end
+    end
+    
+    describe ".rescan_progress" do  
+      it "should return the rescan progress" do
+        stub_connection.with("rescanprogress").returns("rescan%3A1 directory%3A100 musicip%3A100 mergeva%3A100 cleanup1%3A100 cleanup2%3A100 steps%3Adirectory%2Cmusicip%2Cmergeva%2Ccleanup1%2Ccleanup2 totaltime%3A00%3A00%3A38")
+        @client.rescan_progress[:rescan].to_boolean.should be true
+      end
+    end
+  end
 end
