@@ -16,11 +16,11 @@ describe Squeezer::Client do
     end
     
     it "should return a player's id" do
-      @client.players["player_id"].id.should == "player_id"
+      @client.players.first.id.should == "player_id"
     end
     
     it "should return a player's name" do
-      @client.players["player_id"].name.should == "Squeezebox"
+      @client.players.first.name.should == "Squeezebox"
     end
     
   end

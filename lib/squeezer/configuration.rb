@@ -6,8 +6,8 @@ module Squeezer
     # An array of valid keys in the options hash when configuring an {Squeezer::API}
     VALID_OPTIONS_KEYS = [:server, :port].freeze
 
-    # By default, don't set an server
-    DEFAULT_SERVER = nil.freeze
+    # By default, set localhost as the server
+    DEFAULT_SERVER = "127.0.0.1".freeze
 
     # The port where the CLI interface is running on
     #

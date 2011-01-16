@@ -8,7 +8,7 @@ module Squeezer
       def extract_records(data)
         records = Array.new
         record = Hash.new
-        data.scan /([^\s]+)%3A([^\s]+)/ do |match|
+        data.scan(/([^\s]+)%3A([^\s]+)/) do |match|
           if match[0] == "id"
             records << record unless record.empty?
             record = {:id => URI.unescape(match[1])}

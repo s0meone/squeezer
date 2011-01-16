@@ -149,6 +149,26 @@ module Squeezer
         cmd("#{id} mode ?").to_sym
       end
     
+      def show(options)
+        cmd("#{id} show font:#{options[:font]} line2:#{options[:line2]} centered:#{options[:centered]} duration:#{options[:duration]}")
+      end
+      
+      def alert(message, options={})
+        options = {:line2 => URI.escape(message), :centered => true, :duration => 3, :font => :huge}.merge(options)
+        show(options)
+      end
+      
+      def blink(message, times, duration=1, options={})
+        times.times do
+          alert(message, :duration => duration)
+          sleep duration
+        end
+      end
+    
+      def playlist
+        Models::Playlist.new(id)
+      end
+    
       def <=>(target)
         self.name <=> target.name
       end
@@ -158,13 +178,13 @@ module Squeezer
       # beware of offline players, they still show up on the list
       # test if those players are connected with Player#connected?
       def players
-        player_map = Hash.new
+        result = Array.new
         count = cmd("player count ?").to_i
         count.to_i.times do |index|
           id = cmd("player id #{index} ?")
-          player_map[id] = Models::Player.new(id)
+          result << Models::Player.new(id)
         end
-        player_map
+        result
       end
       
       def self.all
@@ -200,7 +220,7 @@ module Squeezer
       end
       
       def find(values)
-        players.each do |id,player|
+        players.each do |player|
           match = true
           values.each do |property,value|
             match = false unless player.send(property.to_sym) == value

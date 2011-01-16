@@ -30,3 +30,5 @@ module Squeezer
   end
   
 end
+
+include Squeezer::Models if $DEBUG

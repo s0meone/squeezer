@@ -211,6 +211,28 @@ describe Squeezer::Models::Player do
       end
     end
     
+    describe ".blink" do
+      it "should blink a message on the player's screen" do
+        stub_connection.at_least(3).with("player_id show font:huge line2:Hello%20World centered:true duration:0.1").returns("player_id show font:huge line2:Hello%20World centered:true duration:0.1")
+        @player.blink("Hello World", 3, 0.1)
+      end
+    end
+    
+    describe ".alert" do
+      it "should alert a message on the player's screen" do
+        stub_connection.with("player_id show font:huge line2:Hello%20World centered:true duration:3").returns("player_id show font:huge line2:Hello%20World centered:true duration:3")
+        @player.alert("Hello World")
+      end
+    end
+    
+    describe ".playlist" do
+      it "should return a playlist model for this player" do
+        playlist = @player.playlist
+        playlist.should be_a Squeezer::Models::Playlist
+        playlist.id.should == @player.id
+      end
+    end
+    
     describe ".mode" do
       it "should return the player's state if playing" do
         stub_connection.with("player_id mode ?").returns("player_id mode play")

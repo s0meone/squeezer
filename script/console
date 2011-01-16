@@ -1,0 +1,16 @@
+#! /usr/bin/env ruby
+
+libs = []
+libs << "irb/completion"
+libs << File.expand_path("../../lib/squeezer.rb", __FILE__)
+
+command_line = []
+command_line << "irb"
+command_line << libs.inject("") { |acc, lib| acc + %( -r "#{lib}") }
+command_line << "--simple-prompt"
+command_line << "-d"
+command_line << "-W1"
+command = command_line.join(" ")
+
+puts "Welcome to the Squeezer console interface."
+exec command
