@@ -172,55 +172,38 @@ module Squeezer
       def <=>(target)
         self.name <=> target.name
       end
-      
-      # TODO method_missing anyone? Those find methods could be nice with a ghost method.
-      
+            
       # beware of offline players, they still show up on the list
       # test if those players are connected with Player#connected?
       def players
+        Player.all
+      end
+      
+      def self.all
         result = Array.new
-        count = cmd("player count ?").to_i
+        count = Connection.exec("player count ?").to_i
         count.to_i.times do |index|
-          id = cmd("player id #{index} ?")
+          id = Connection.exec("player id #{index} ?")
           result << Models::Player.new(id)
         end
         result
       end
       
-      def self.all
-        self.new(nil).players
-      end
-      
       # handle duplicates in these find methods, specs expect only one result
-      def find_by_name(name)
+      def self.find_by_name(name)
         find(:name => name)
       end
       
-      def self.find_by_name(name)
-        self.new(nil).find_by_name(name)
-      end
-      
-      def find_by_ip(ip)
+      def self.find_by_ip(ip)
         find(:ip => ip)
       end
-      
-      def self.find_by_ip(ip)
-        p = self.new(nil)
-        result = p.find_by_ip(ip)
-        p = nil
-        result
-      end
-      
-      def find_by_id(id)
+          
+      def self.find_by_id(id)
         find(:id => id)
       end
-      
-      def self.find_by_id(id)
-        self.new(nil).find_by_id(id)
-      end
-      
-      def find(values)
-        players.each do |player|
+            
+      def self.find(values)
+        all.each do |player|
           match = true
           values.each do |property,value|
             match = false unless player.send(property.to_sym) == value
@@ -229,11 +212,7 @@ module Squeezer
         end
         return nil
       end
-      
-      def self.find(values)
-        self.new(nil).find(values)
-      end
-      
+            
     end
   end
 end

@@ -179,7 +179,6 @@ describe Squeezer::Models::Player do
     it "should find a player by a combination of search arguments" do
       stub_connection.with("player count ?").returns("1\n")
       stub_connection.with("player id 0 ?").returns("player id 0 player_id\n")
-      @player.find(:id => "player_id", :ip => "127.0.0.1", :name => "Squeezebox").nil?.should be false
       Squeezer::Models::Player.find(:id => "player_id", :ip => "127.0.0.1", :name => "Squeezebox").nil?.should be false
     end
   end

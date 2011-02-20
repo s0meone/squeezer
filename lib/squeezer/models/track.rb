@@ -10,25 +10,17 @@ module Squeezer
           @name = record[:title] if record.key?(:title)
         end
       end
-      
-      def total
-        count(:songs)
-      end
-      
+            
       def self.total
-        self.new.total
-      end
-      
-      def all
-        results = Array.new
-        extract_records(cmd("tracks 0 #{total} charset:utf8 tags:s")).each do |record|
-          results << self.class.new(record)
-        end
-        results
+        Connection.exec("info total songs ?").to_i
       end
       
       def self.all
-        self.new.all
+        results = Array.new
+        Model.extract_records(Connection.exec("tracks 0 #{total} charset:utf8 tags:s")).each do |record|
+          results << Track.new(record)
+        end
+        results
       end
     end
     

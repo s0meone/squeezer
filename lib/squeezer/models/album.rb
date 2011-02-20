@@ -4,7 +4,7 @@ module Squeezer
     class Album < Model
       attr_reader :id, :name
       
-      def initialize(record=nil)
+      def initialize(record)
         unless record.nil?
           @id = record[:id] if record.key?(:id)
           @name = record[:title] if record.key?(:title)
@@ -15,26 +15,19 @@ module Squeezer
       def discs
         @discs.nil? ? 1 : @discs.to_i
       end
-      
-      def total
-        count(:albums)
-      end
-      
+            
       def self.total
-        self.new.total
+        Connection.exec("info total albums ?").to_i
       end
       
-      def all
+      def self.all
         results = Array.new
-        extract_records(cmd("albums 0 #{total} charset:utf8 tags:tqs")).each do |record|
-          results << self.class.new(record)
+        Model.extract_records(Connection.exec("albums 0 #{total} charset:utf8 tags:tqs")).each do |record|
+          results << Album.new(record)
         end
         results
       end
       
-      def self.all
-        self.new.all
-      end
     end
     
   end

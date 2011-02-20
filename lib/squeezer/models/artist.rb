@@ -4,31 +4,23 @@ module Squeezer
     class Artist < Model
       attr_accessor :id, :name
       
-      def initialize(record=nil)
+      def initialize(record)
         unless record.nil?
           @id = record[:id] if record.key?(:id)
           @name = record[:artist] if record.key?(:artist)
         end
       end
-      
-      def total
-        count(:artists)
-      end
-      
+            
       def self.total
-        self.new.total
-      end
-      
-      def all
-        results = Array.new
-        extract_records(cmd("artists 0 #{total + 1} charset:utf8 tags:s")).each do |record|
-          results << self.class.new(record)
-        end
-        results
+        Connection.exec("info total artists ?").to_i
       end
       
       def self.all
-        self.new.all
+        results = Array.new
+        Model.extract_records(Connection.exec("artists 0 #{total + 1} charset:utf8 tags:s")).each do |record|
+          results << Artist.new(record)
+        end
+        results
       end
     end
     

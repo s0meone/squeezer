@@ -11,6 +11,7 @@ Spork.prefork do
   SimpleCov.start do
     add_group 'Squeezer', 'lib/squeezer'
     add_group 'Specs', 'spec'
+    add_filter __FILE__
   end
   
   RSpec.configure do |config|
