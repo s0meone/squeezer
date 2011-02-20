@@ -14,18 +14,7 @@ module Squeezer
     private
     
     def cmd(command, options={})
-      # TODO raise exceptions instead of returning false
-      response = connection.cmd(command)
-      puts response if options == :debug
-      return false if response.nil?
-      return true if response.strip.eql?(command)
-      result = response.gsub(command.gsub('?', '').strip, '').strip
-      result.force_encoding("UTF-8") unless /^1\.8/ === RUBY_VERSION
-      result
-    end
-    
-    def connection
-      Connection.retrieve_connection
+      Connection.exec(command, options)
     end
     
     class << self
@@ -34,15 +23,30 @@ module Squeezer
         @connection = nil
       end
       
+      def exec(command, options={})
+        # TODO raise exceptions instead of returning false
+        response = retrieve_connection.cmd(command)
+        puts response if options == :debug
+        return false if response.nil?
+        return true if response.strip.eql?(command)
+        result = response.gsub(command.gsub('?', '').strip, '').strip
+        result.force_encoding("UTF-8") unless /^1\.8/ === RUBY_VERSION
+        result
+      end
+      
       def retrieve_connection
         @connection ||= open_connection
       end
       
-      def open_connection
+      def open_connection  
         # TODO do authentication and stuff
         # TODO fix the timeout if we receive a large ammount of data 
         # TODO add error handling when the host is unavailable
-        Net::Telnet.new("Host" => Squeezer.server, "Port" => Squeezer.port, "Telnetmode" => false, "Prompt" => /\n/)
+        begin
+          Net::Telnet.new("Host" => Squeezer.server, "Port" => Squeezer.port, "Telnetmode" => false, "Prompt" => /\n/)
+        rescue
+          raise "connection failed"
+        end
       end
     end
     

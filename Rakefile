@@ -17,3 +17,20 @@ namespace :doc do
     ]
   end
 end
+
+namespace :tests do
+  desc "Run Spork DRb server, for faster tests"
+  task :spork do |task|
+    sh "spork"
+  end
+
+  desc "Run a continuous testing environment"
+  task :autotest do |task|
+    sh "autotest"
+  end
+  
+  desc "Run all tests"
+  task :run do |task|
+    Rake::Task[:spec].execute
+  end
+end

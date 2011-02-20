@@ -70,6 +70,20 @@ Models:
 	  puts Album.total
 	end
 
+Testing
+-------
+Run all tests:
+
+	rake tests:run
+
+Start Spork DRb server, for faster testing:
+
+	rake tests:spork
+	
+Run a continuous testing environment with autotest (configure .autotest for your own needs):
+
+	rake tests:autotest
+
 Copyright
 ---------
 Copyright (c) 2011 Daniël van Hoesel.

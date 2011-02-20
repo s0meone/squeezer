@@ -9,6 +9,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency('simplecov', '~> 0.3')
   s.add_development_dependency('maruku', '~> 0.6')
   s.add_development_dependency('yard', '~> 0.6')
+  s.add_development_dependency('spork', '~> 0.8.4')
+  s.add_development_dependency('autotest-standalone', '~> 4.5.5')
   
   s.authors = ["Daniël van Hoesel"]
   s.description = %q{A Ruby wrapper for the Squeezebox Server CLI API}
